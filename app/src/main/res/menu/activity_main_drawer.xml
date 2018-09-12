@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Início" />
+        <item
+            android:id="@+id/nav_meus_livros"
+            android:icon="@drawable/ic_picture_as_pdf_black_24dp"
+            android:title="Meus livros" />
+        <item
+            android:id="@+id/nav_rank"
+            android:icon="@drawable/ic_equalizer_black_24dp"
+            android:title="Livros de amigos" />
+        <item
+            android:id="@+id/nav_compartilhar"
+            android:icon="@drawable/ic_send_black_24dp"
+            android:title="Compartilhar aplicativo" />
+        <item
+            android:id="@+id/nav_quem_somos"
+            android:icon="@drawable/ic_group_black_24dp"
+            android:title="Quem somos" />
+    </group>
+    <item android:title="Apoie esta causa!">
+        <menu>
+            <item
+                android:id="@+id/nav_doar"
+                android:icon="@drawable/ic_attach_money_black_24dp"
+                android:title="Doe" />
+        </menu>
+    </item>
+        <item android:title="Logout">
+            <menu>
+                <item
+                    android:id="@+id/nav_sair"
+                    android:icon="@drawable/ic_power_settings_new_black_24dp"
+                    android:title="@string/logout" />
+            </menu>
+        </item>
+
+
+
+</menu>

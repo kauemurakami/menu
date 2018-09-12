@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "927093987868",
+    "firebase_url": "https://the-piraty-book-alpha1.firebaseio.com",
+    "project_id": "the-piraty-book-alpha1",
+    "storage_bucket": "the-piraty-book-alpha1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927093987868:android:5e872e2b81c913e7",
+        "android_client_info": {
+          "package_name": "ktm.com.menu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "927093987868-stle70v553n03ecmc5nsn6j8nler88mm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ktm.com.menu",
+            "certificate_hash": "15894cb80327e3d61c0f0913346e28d3d58200a3"
+          }
+        },
+        {
+          "client_id": "927093987868-90eq6k5k6t4gu8nhr348f34hqapgbsie.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdQc7K0tbqtQEI7jnY7iPKSuggDMIFB-s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "927093987868-90eq6k5k6t4gu8nhr348f34hqapgbsie.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
