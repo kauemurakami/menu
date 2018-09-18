@@ -6,9 +6,13 @@
     tools:context=".fragmentos.ObjetivoFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="OBJ" />
-
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="OBJ" />
+    </RelativeLayout>
 </FrameLayout>

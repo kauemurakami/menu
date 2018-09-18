@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragmentos.UploadFragment"
+    android:layout_margin="40dp">
+
+
+    <RelativeLayout
+        android:background="@drawable/upload_style"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- TODO: Update blank fragment layout -->
+
+        <android.support.design.widget.TextInputEditText
+            android:textColor="@color/colorAccent"
+            android:id="@+id/edit_nome_arquivo"
+            android:layout_width="267dp"
+            android:textColorHint="@color/colorAccent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="26dp"
+            android:hint="@string/nome_apenas_letras"
+            android:inputType="text"
+            android:maxLength="50"
+            android:padding="@dimen/epc_padrao" />
+
+        <Spinner
+            android:textSize="20sp"
+            android:id="@+id/spinner_categorias"
+            android:layout_width="131dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/edit_nome_arquivo"
+            android:layout_marginTop="199dp"
+            android:entries="@array/tipos"
+            android:padding="@dimen/epc_padrao" />
+
+        <android.support.design.widget.TextInputEditText
+            android:textColor="@color/colorAccent"
+            android:shadowColor="@color/colorAccent"
+            android:id="@+id/edit_autor_arquivo"
+            android:layout_width="262dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/edit_nome_arquivo"
+            android:layout_marginTop="111dp"
+            android:ems="10"
+            android:maxLength="42"
+            android:textColorHint="@color/colorAccent"
+            android:hint="Autor"
+            android:inputType="textPersonName" />
+
+        <android.support.design.widget.TextInputEditText
+            android:textColor="@color/colorAccent"
+            android:id="@+id/edit_numero_paginas"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/edit_autor_arquivo"
+            android:layout_alignTop="@+id/spinner_categorias"
+            android:ems="10"
+            android:maxLength="5"
+            android:textColorHint="@color/colorAccent"
+            android:hint="Paginas"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/botao_enviarUpload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="42dp"
+            android:background="@drawable/botoes"
+            android:text="Enviar"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:id="@+id/busca_arquivo"
+            android:layout_width="196dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="167dp"
+            android:background="@drawable/botoes"
+            android:text="Procurar"
+            android:textColor="@color/colorAccent" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+</FrameLayout>

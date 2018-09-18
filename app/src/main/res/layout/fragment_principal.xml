@@ -3,14 +3,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragmentos.PrincipalFragment">
+    tools:context=".fragmentos.PrincipalFragment"
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    android:background="@color/testef1">
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="PRIN"
-        android:textSize="@dimen/icon_login"
-        android:gravity="center"/>
+        android:layout_height="match_parent">
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp"
+            android:gravity="center"
+            android:text="PRIN"
+            android:textSize="@dimen/icon_login" />
 
+        <EditText
+            android:id="@+id/edit_text_pesquisar"
+            android:layout_width="264dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="14dp"
+            android:ems="10"
+            android:hint="Procure por livros, artigos e mt+"
+            android:inputType="text" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/botao_pesquisar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="top|end"
+            android:layout_margin="16dp"
+            android:backgroundTint="@android:color/black"
+            android:clickable="true"
+            android:src="@drawable/ic_search_black_24dp" />
+    </RelativeLayout>
 </FrameLayout>
