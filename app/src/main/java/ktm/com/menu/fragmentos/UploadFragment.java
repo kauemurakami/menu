@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,11 +42,15 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import ktm.com.menu.firebase.ConfiguracaoFirebase;
 import ktm.com.menu.R;
 import ktm.com.menu.firebase.UsuarioFirebase;
 import ktm.com.menu.helper.Base64Custom;
+import ktm.com.menu.helper.Upload;
 import ktm.com.menu.model.Livro;
 import ktm.com.menu.model.Usuario;
 
@@ -181,63 +186,56 @@ public class UploadFragment extends Fragment {
             Toast.makeText(getContext(), "Por favor, permita o acesso", Toast.LENGTH_SHORT).show();
     }
 
-    //mpetodo para fazer o upload
-    private void uploadFile() {
-        try {
-            //Uri file = Uri.fromFile(new File(pdfUri.getEncodedPath().toString()));
-            final String nomeAutorArquivo = nomeAutor.getText().toString();
-            final String fileName = nomeArquivo.getText().toString();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();//recupera o conteudo de entrada e converte em array de bytes
-            byte[] dadosFile = baos.toByteArray();//tira da memória e salva em um array de bytes
+    //metodo para fazer o upload
+    private void uploadFile(){
+        final String nomeAutorArquivo = nomeAutor.getText().toString();
+        final String fileName = nomeArquivo.getText().toString();
 
-            StorageMetadata metadata = new StorageMetadata.Builder()
-                    .setContentType("application/pdf")//especifica o tipo de arquivo/dados
-                    .build();
-            final StorageReference riversRef = storageRef
-                    .child("arquivos").child(fileName);//nós referencia
-            UploadTask uploadTask = riversRef.putBytes(dadosFile,metadata);//envia arquivo
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {//em caso de falha
-                    Toast.makeText(getContext(), "Falhou", Toast.LENGTH_SHORT).show();
-                    Log.d("erro ",e.toString());
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {//em caso de sucesso
-                    Toast.makeText(getContext(), "Enviado", Toast.LENGTH_SHORT).show();
-                    //Adicionar metodo de aumentar pontos do usuario
+        Toast.makeText(getContext(), "Enviado", Toast.LENGTH_SHORT).show();
+        Uri file = Uri.fromFile(new File(pdfUri.toString()));
+        final StorageReference riversRefTTT = storageRef
+                .child("arquivos").child(fileName);//nós referencia
+        UploadTask uploadTask1 = riversRefTTT.putFile(pdfUri);
+        uploadTask1.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(),"Falha ao enviar!",Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
+                Toast.makeText(getContext(),"Enviado!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Task<Uri> urlTask = uploadTask1.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()){
+                    throw task.getException();
                 }
-            });
-            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()){
-                        throw task.getException();
-                    }
-                    return riversRef.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if(task.isSuccessful()){
-                        Uri downloadUrl = task.getResult();
-                        Livro livro = new Livro(fileName,nomeAutorArquivo,downloadUrl.toString());
-                        livro.salvar();
-                    }else Log.d("erro","a");
-                }
-            });
-        }catch (Exception e){
-            Toast.makeText(getContext(),"Digite um nome para o arquivo",Toast.LENGTH_SHORT).show();
-            //textView.setText(e.toString());
-        }
+                return riversRefTTT.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if(task.isSuccessful()){
+                    Uri downloadUrl = task.getResult();
+                    Livro livro = new Livro(fileName,nomeAutorArquivo,downloadUrl.toString());
+                    livro.salvar();
+                }else Log.d("erro","a");
+            }
+        });
     }
+
+
     //metodo para selecionar o arquivo
     private void selectPDF() {
         Intent intent = new Intent();
         intent.setType("application/pdf");
         intent.setAction(Intent.ACTION_GET_CONTENT);//pegando arquivos
+
         startActivityForResult(intent, 86);
     }
 

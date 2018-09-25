@@ -55,7 +55,6 @@ public class PrincipalFragment extends Fragment {
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,7 +82,6 @@ public class PrincipalFragment extends Fragment {
 
         //Firebase Usuario atual
         FirebaseUser usuario = UsuarioFirebase.getUsuarioAtual();
-
 
         botaoPesquisa.setOnClickListener(new View.OnClickListener() {
             @Override
