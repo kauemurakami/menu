@@ -38,7 +38,6 @@ public class LivroAdapter extends RecyclerView.Adapter<LivroAdapter.MyViewHolder
         return vHolder;
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
@@ -46,7 +45,9 @@ public class LivroAdapter extends RecyclerView.Adapter<LivroAdapter.MyViewHolder
 
         holder.nomeLivro.setText(livro.getNome());
         holder.nomeAutor.setText(livro.getAutor());
+        holder.url = livro.getUrl();
         //holder.imageView.setImageResource(R.android/ic_menu_view");
+
 
         //recupera uri do arquivo
         //if(livro.get)
@@ -58,10 +59,13 @@ public class LivroAdapter extends RecyclerView.Adapter<LivroAdapter.MyViewHolder
         return arquivos.size();
     }
 
+
+
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         ImageView imageView;
         TextView nomeLivro,nomeAutor;
+        String url;
 
         public MyViewHolder(View itemView) {
             super(itemView);
