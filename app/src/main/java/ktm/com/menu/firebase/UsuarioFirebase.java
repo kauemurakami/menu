@@ -30,15 +30,13 @@ public class UsuarioFirebase {
         return usuario.getCurrentUser();
     }
 
-    public void atualizaPontos(int ponto) {
-
-    }
 
     public static Usuario getDadosUsuarioLogado(){
         FirebaseUser firebaseUser = getUsuarioAtual();
         Usuario usuario = new Usuario();
         usuario.setEmail(firebaseUser.getEmail());
         usuario.setNome(firebaseUser.getDisplayName());
+        int pontos = usuario.getPontos();
         //if(firebaseUser.getPhotoUrl() != null)
         //foto usuario
         //usuario.setFoto(firebaseUser.getPhotoUrl().toString());

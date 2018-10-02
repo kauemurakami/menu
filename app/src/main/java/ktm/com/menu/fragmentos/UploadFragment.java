@@ -187,11 +187,11 @@ public class UploadFragment extends Fragment {
     }
 
     //metodo para fazer o upload
-    private void uploadFile(){
+    private void uploadFile() {
         final String nomeAutorArquivo = nomeAutor.getText().toString();
         final String fileName = nomeArquivo.getText().toString();
 
-        Toast.makeText(getContext(), "Enviado", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "Enviado", Toast.LENGTH_SHORT).show();
         Uri file = Uri.fromFile(new File(pdfUri.toString()));
         final StorageReference riversRefTTT = storageRef
                 .child("arquivos").child(fileName);//nós referencia
@@ -199,20 +199,20 @@ public class UploadFragment extends Fragment {
         uploadTask1.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(),"Falha ao enviar!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Falha ao enviar!", Toast.LENGTH_SHORT).show();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                Toast.makeText(getContext(),"Enviado!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Enviado!", Toast.LENGTH_SHORT).show();
             }
         });
 
         Task<Uri> urlTask = uploadTask1.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()){
+                if (!task.isSuccessful()) {
                     throw task.getException();
                 }
                 return riversRefTTT.getDownloadUrl();
@@ -220,11 +220,15 @@ public class UploadFragment extends Fragment {
         }).addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     Uri downloadUrl = task.getResult();
-                    Livro livro = new Livro(fileName,nomeAutorArquivo,downloadUrl.toString());
+                    Livro livro = new Livro(fileName, nomeAutorArquivo, downloadUrl.toString());
+                    //chama o método que realiza a gravação do livro
                     livro.salvar();
-                }else Log.d("erro","a");
+                    Usuario usuario = new Usuario();
+                    //adiciona um ponto aos pontos do usuário
+                    usuario.setPontos(usuario.getPontos() + 1);
+                } else Log.d("erro", "a");
             }
         });
     }
@@ -235,7 +239,6 @@ public class UploadFragment extends Fragment {
         Intent intent = new Intent();
         intent.setType("application/pdf");
         intent.setAction(Intent.ACTION_GET_CONTENT);//pegando arquivos
-
         startActivityForResult(intent, 86);
     }
 

@@ -34,6 +34,7 @@ import ktm.com.menu.firebase.ConfiguracaoFirebase;
 import ktm.com.menu.firebase.UsuarioFirebase;
 import ktm.com.menu.helper.RecyclerItemClickListener;
 import ktm.com.menu.model.Livro;
+import ktm.com.menu.model.Usuario;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -93,12 +94,18 @@ public class PrincipalFragment extends Fragment {
                                 //recpera livro da posição clicada
                                 Livro livroSelecionado = listaLivros.get(position);
                                 try {
-                                    Toast.makeText(getContext(),"livro"+livroSelecionado.getNome().toString(),Toast.LENGTH_SHORT).show();
-                                    downloadFile(livroSelecionado.getUrl());
+                                    Usuario usuario = new Usuario();
+                                    //verifica se o usuario possui pontos suficientes para fazer o download
+                                    if(usuario.getPontos() > 0){
+                                        Toast.makeText(getContext(),"Baixando "+livroSelecionado.getNome().toString(),Toast.LENGTH_SHORT).show();
+                                        //chamada do método de download
+                                        downloadFile(livroSelecionado.getUrl());
+                                        //retira um ponto do usuario
+                                        usuario.setPontos(usuario.getPontos()-1);
+                                    }
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
-                                Toast.makeText(getContext(),"",Toast.LENGTH_SHORT).show();
 
                             }
 

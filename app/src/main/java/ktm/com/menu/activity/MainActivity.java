@@ -15,22 +15,26 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import ktm.com.menu.R;
+import ktm.com.menu.firebase.UsuarioFirebase;
 import ktm.com.menu.fragmentos.ObjetivoFragment;
 import ktm.com.menu.fragmentos.PrincipalFragment;
 import ktm.com.menu.fragmentos.UploadFragment;
+import ktm.com.menu.model.Usuario;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener , UploadFragment.OnFragmentInteractionListener{
 
     //Firebase Authentication dados
     private FirebaseAuth firebaseAuth;
-
+    //Text View Header
+    TextView textViewEmail,textViewPontos;
     //Frames Layouts
     private FrameLayout frameLayout;
 
@@ -45,9 +49,20 @@ public class MainActivity extends AppCompatActivity
         //Verifica se o usuário está logado, caso não esteja ele força a tela de login
         firebaseAuth = FirebaseAuth.getInstance();
 
+        //texts views cabeçalho
+        textViewEmail = findViewById(R.id.textViewEmailPessoa);
+        textViewPontos = findViewById(R.id.textViewPontos);
+
+        //recuperando dados do usuario atual
+        Usuario usuarioFirebase = UsuarioFirebase.getDadosUsuarioLogado();
+        //atribuindo valores as texts views cabeçalho
+        textViewEmail.setText(usuarioFirebase.getEmail());
+        textViewPontos.setText(usuarioFirebase.getPontos());
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("The Piraty Book");
         setSupportActionBar(toolbar);
+
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.botao_upload);

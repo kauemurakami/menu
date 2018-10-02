@@ -1,8 +1,10 @@
 package ktm.com.menu.model;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
 import ktm.com.menu.firebase.ConfiguracaoFirebase;
+import ktm.com.menu.firebase.UsuarioFirebase;
 
 public class Usuario {
     private String uidPessoa;
@@ -24,6 +26,12 @@ public class Usuario {
         DatabaseReference firebaseRef= ConfiguracaoFirebase.getDatabase();
         DatabaseReference usuario = firebaseRef.child("usuarios").child(getUidPessoa());
         usuario.setValue(this);
+    }
+    public void atualizaPontos(){
+        Usuario firebaseUser = UsuarioFirebase.getDadosUsuarioLogado();
+        Usuario usuario = new Usuario();
+        usuario.setEmail(firebaseUser.getEmail());
+        usuario.setPontos(1 + getPontos());
     }
 
     public String getEmail() {
