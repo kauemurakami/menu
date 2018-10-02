@@ -59,46 +59,6 @@ public class Livro implements Serializable{
         return false;
     }
 
-    public void baixar(){
-        try{
-            //DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-        //StorageReference storageRef = storage.getReferenceFromUrl(url);
-
-        final StorageReference storageRef = storage
-                .getReferenceFromUrl("gs://the-piraty-book-alpha1.appspot.com/arquivos/")
-                .child(nome);
-
-            File storagePath = new File( Environment.getExternalStorageDirectory(),"TPB");
-            if(!storagePath.exists()) {
-                storagePath.mkdirs();
-            }
-
-            File localFile = null;
-            localFile = File.createTempFile(nome,"pdf");
-
-            final File finalLocalFile = localFile;
-            final FileDownloadTask task = storageRef.getFile(localFile);
-            task.addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    taskSnapshot.getStorage();
-                    Log.e("firebase ",";local tem file created  created " + finalLocalFile.toString());
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    Log.e("firebase ",";local tem file not created  created " +exception.toString());
-                }
-            });
-
-        }catch (IOException e){
-
-        }
-    }
-
-
     public String getUidLivro() {
         return uidLivro;
     }

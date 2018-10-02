@@ -1,7 +1,10 @@
 package ktm.com.menu.fragmentos;
 
 
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import ktm.com.menu.R;
@@ -88,8 +92,13 @@ public class PrincipalFragment extends Fragment {
                             public void onItemClick(View view, int position) {
                                 //recpera livro da posição clicada
                                 Livro livroSelecionado = listaLivros.get(position);
-                                livroSelecionado.baixar();
-                                Toast.makeText(getContext(),"aa",Toast.LENGTH_SHORT).show();
+                                try {
+                                    Toast.makeText(getContext(),"livro"+livroSelecionado.getNome().toString(),Toast.LENGTH_SHORT).show();
+                                    downloadFile(livroSelecionado.getUrl());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                Toast.makeText(getContext(),"",Toast.LENGTH_SHORT).show();
 
                             }
 
@@ -123,6 +132,20 @@ public class PrincipalFragment extends Fragment {
         //chama o método responsavel por recuperar e inflar o recycler view
         return view;
     }
+    //realiza download do arquivo
+    private Long downloadFile(String url) throws IOException {
+//Trago a variável url de uma consulta no firebase
+
+        DownloadManager downloadManeger = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+        Uri uri = Uri.parse(url);
+
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+        return downloadManeger.enqueue(request);
+    }
+
 
 
     @Override
