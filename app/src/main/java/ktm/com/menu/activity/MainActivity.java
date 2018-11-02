@@ -15,12 +15,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import ktm.com.menu.R;
+import ktm.com.menu.firebase.ConfiguracaoFirebase;
 import ktm.com.menu.fragmentos.ObjetivoFragment;
 import ktm.com.menu.fragmentos.PrincipalFragment;
 import ktm.com.menu.fragmentos.UploadFragment;
@@ -30,7 +33,10 @@ public class MainActivity extends AppCompatActivity
 
     //Firebase Authentication dados
     private FirebaseAuth firebaseAuth;
-
+    //Text View Header
+    TextView textViewEmail;
+    TextView textViewPontos;
+    ImageView imageView;
     //Frames Layouts
     private FrameLayout frameLayout;
 
@@ -39,15 +45,20 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //recebe o FrameLayout principal
+        //recebe o FrameLayout principal ###################
         frameLayout = findViewById(R.id.frame_container);
 
         //Verifica se o usuário está logado, caso não esteja ele força a tela de login
         firebaseAuth = FirebaseAuth.getInstance();
 
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+       // firebaseUser.getDisplayName()
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("The Piraty Book");
+        toolbar.setTitle("Clube do Livro");
         setSupportActionBar(toolbar);
+
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.botao_upload);
@@ -70,6 +81,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
 
     }
 

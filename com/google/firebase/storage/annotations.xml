@@ -1,0 +1,6 @@
+<root>
+    <item
+        name='com.google.firebase.storage.StorageReference com.google.android.gms.tasks.Task&lt;android.net.Uri&gt; getDownloadUrl()'>
+        <annotation name='java.lang.Deprecated' />
+    </item>
+</root>

@@ -1,38 +1,40 @@
 package ktm.com.menu.fragmentos;
 
 
+import android.app.DownloadManager;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import ktm.com.menu.R;
 import ktm.com.menu.adapter.LivroAdapter;
 import ktm.com.menu.firebase.ConfiguracaoFirebase;
 import ktm.com.menu.firebase.UsuarioFirebase;
+import ktm.com.menu.helper.RecyclerItemClickListener;
 import ktm.com.menu.model.Livro;
+import ktm.com.menu.model.Usuario;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,14 +52,16 @@ public class PrincipalFragment extends Fragment {
     private FloatingActionButton botaoPesquisa;
     private EditText editTextPesquisa;
 
+    //WebView
+    WebView webView;
+
     public PrincipalFragment() {
         // Required empty public constructor
 
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_principal, container, false);
@@ -65,11 +69,13 @@ public class PrincipalFragment extends Fragment {
         //Recycle View
         recyclerView = view.findViewById(R.id.recycle_view_livros);
 
-        //livrosl istagem
+        //livros listagem
         livrosRef = ConfiguracaoFirebase.getDatabase().child("arquivos");
 
         //Configurar Adapter
         adapter = new LivroAdapter(listaLivros,getContext());
+
+        //WebView
 
         //Configurar Recycler view
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -77,13 +83,44 @@ public class PrincipalFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
         //Criando evento de touch no recicler view
+        recyclerView.addOnItemTouchListener(
+                //@param1 context @param2 recycler view @param3 onItemclickListener
+                new RecyclerItemClickListener(
+                        getContext(),
+                        recyclerView,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                //recpera livro da posição clicada
+                                Livro livroSelecionado = listaLivros.get(position);
+                                try{
+                                    Toast.makeText(getContext(),"Baixando...",Toast.LENGTH_SHORT).show();
+                                    downloadFile(livroSelecionado.getUrl());
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        }
+                )
+        );
 
         botaoPesquisa = view.findViewById(R.id.botao_pesquisar);
         editTextPesquisa = view.findViewById(R.id.edit_text_pesquisar);
 
         //Firebase Usuario atual
         FirebaseUser usuario = UsuarioFirebase.getUsuarioAtual();
-
 
         botaoPesquisa.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +133,21 @@ public class PrincipalFragment extends Fragment {
         //chama o método responsavel por recuperar e inflar o recycler view
         return view;
     }
+    //realiza download do arquivo
+    private Long downloadFile(String url) throws IOException {
+//Trago a variável url de uma consulta no firebase
+
+        DownloadManager downloadManeger = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+        Uri uri = Uri.parse(url);
+
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+        return downloadManeger.enqueue(request);
+    }
+
+
 
     @Override
     public void onStart() {
@@ -111,7 +163,7 @@ public class PrincipalFragment extends Fragment {
     }
 
     public void recuperarLivros() {
-
+        listaLivros.clear();//limpa a lista atual antes inflar a proxima, caso não haja esse método os itens se repetem a cada chamada
         valueEventListener = livrosRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

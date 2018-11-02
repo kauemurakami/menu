@@ -2,6 +2,8 @@ package ktm.com.menu.helper;
 
 import android.util.Base64;
 
+import ktm.com.menu.model.Livro;
+
 public class Base64Custom {
     //Converte email do usuario para a base 64 para ser usada como um Identificador unico
     //Por o email ser unico isso nos da essa opção

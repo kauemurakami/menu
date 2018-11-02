@@ -1,8 +1,14 @@
 package ktm.com.menu.model;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ktm.com.menu.firebase.ConfiguracaoFirebase;
+import ktm.com.menu.firebase.UsuarioFirebase;
+import ktm.com.menu.helper.Base64Custom;
 
 public class Usuario {
     private String uidPessoa;
@@ -14,10 +20,9 @@ public class Usuario {
     public Usuario(String email,String senha){
         this.email = email;
         this.senha = senha;
-        pontos = 1;
     }
     public Usuario() {
-        pontos = 1;
+
     }
 
     public void salvar(){
@@ -25,6 +30,7 @@ public class Usuario {
         DatabaseReference usuario = firebaseRef.child("usuarios").child(getUidPessoa());
         usuario.setValue(this);
     }
+
 
     public String getEmail() {
         return email;

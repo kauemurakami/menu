@@ -37,4 +37,5 @@
     </string>
     <string name="nome_apenas_letras">Nome do arquivo</string>
     <string name="title_activity_configuracoes">ConfiguracoesActivity</string>
+    <string name="title_activity_pdf">ActivityPDF</string>
 </resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tipos">
+        <item>Artigos</item>
+        <item>HQ's</item>
+        <item>Livros</item>
+        <item>Manuais</item>
+    </string-array>
+
+</resources>

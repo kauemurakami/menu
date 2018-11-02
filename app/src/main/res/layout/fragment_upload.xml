@@ -54,19 +54,6 @@
             android:hint="Autor"
             android:inputType="textPersonName" />
 
-        <android.support.design.widget.TextInputEditText
-            android:textColor="@color/colorAccent"
-            android:id="@+id/edit_numero_paginas"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/edit_autor_arquivo"
-            android:layout_alignTop="@+id/spinner_categorias"
-            android:ems="10"
-            android:maxLength="5"
-            android:textColorHint="@color/colorAccent"
-            android:hint="Paginas"
-            android:inputType="number" />
-
         <Button
             android:id="@+id/botao_enviarUpload"
             android:layout_width="wrap_content"
