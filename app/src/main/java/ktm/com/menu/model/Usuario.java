@@ -3,7 +3,9 @@ package ktm.com.menu.model;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import ktm.com.menu.firebase.ConfiguracaoFirebase;

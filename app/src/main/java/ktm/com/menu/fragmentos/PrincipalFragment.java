@@ -96,11 +96,9 @@ public class PrincipalFragment extends Fragment {
                                 try{
                                     Toast.makeText(getContext(),"Baixando...",Toast.LENGTH_SHORT).show();
                                     downloadFile(livroSelecionado.getUrl());
-
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
-
                             }
 
                             @Override
