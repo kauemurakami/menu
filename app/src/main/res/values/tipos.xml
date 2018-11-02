@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="tipos">
-        <item>Ação</item>
-        <item>Aventura</item>
-        <item>Comédia</item>
-        <item>Drama</item>
-        <item>Terror</item>
-        <item>Suspense</item>
+        <item>Artigos</item>
         <item>HQ's</item>
+        <item>Livros</item>
+        <item>Manuais</item>
     </string-array>
 
 </resources>

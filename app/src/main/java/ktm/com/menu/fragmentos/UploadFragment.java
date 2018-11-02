@@ -34,23 +34,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import ktm.com.menu.firebase.ConfiguracaoFirebase;
 import ktm.com.menu.R;
 import ktm.com.menu.firebase.UsuarioFirebase;
 import ktm.com.menu.helper.Base64Custom;
-import ktm.com.menu.helper.Upload;
 import ktm.com.menu.model.Livro;
 import ktm.com.menu.model.Usuario;
 
@@ -63,7 +57,6 @@ public class UploadFragment extends Fragment {
     private TextView textView;
     private TextInputEditText nomeArquivo;
     private TextInputEditText nomeAutor;
-    private TextInputEditText numeroDePaginas;
     private Spinner categorias;
     private Button botaoProcurarArquivo;
     private Button botaoEnviarArquivo;
@@ -73,7 +66,7 @@ public class UploadFragment extends Fragment {
             Manifest.permission.CAMERA
     };
 
-    private final int SELECAO_PDF = 234;
+    //private final int SELECAO_PDF = 234;
     //Firebase
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -130,13 +123,14 @@ public class UploadFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_upload, container, false);
         nomeArquivo = view.findViewById(R.id.edit_nome_arquivo);
         nomeAutor = view.findViewById(R.id.edit_autor_arquivo);
-        numeroDePaginas = view.findViewById(R.id.edit_numero_paginas);
         categorias = view.findViewById(R.id.spinner_categorias);
         botaoEnviarArquivo = view.findViewById(R.id.botao_enviarUpload);
         botaoProcurarArquivo = view.findViewById(R.id.busca_arquivo);
+        categorias = view.findViewById(R.id.spinner_categorias);
 
         storageRef = ConfiguracaoFirebase.getFirebaseStorage();
         textView = view.findViewById(R.id.textView);
+
 
         //Botão que procura por um arquivo no celualr
         botaoProcurarArquivo.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +150,8 @@ public class UploadFragment extends Fragment {
                 if (pdfUri != null) {
                     uploadFile();
                     textView.setText(pdfUri.toString());
+
+
                 } else
                     Toast.makeText(getContext(), "Selecione um arquivo", Toast.LENGTH_SHORT).show();
                 textView.setText(pdfUri.toString());
@@ -164,7 +160,6 @@ public class UploadFragment extends Fragment {
 
         return view;
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -222,12 +217,14 @@ public class UploadFragment extends Fragment {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     Uri downloadUrl = task.getResult();
-                    Livro livro = new Livro(fileName, nomeAutorArquivo, downloadUrl.toString());
+
+                    //adiciona um ponto aos pontos do usuário
+                    Usuario usuario = new Usuario();
+                    //usuario.atualizaPontos();
+
+                    Livro livro = new Livro(fileName, nomeAutorArquivo, downloadUrl.toString(),categorias.getSelectedItem().toString());
                     //chama o método que realiza a gravação do livro
                     livro.salvar();
-                    Usuario usuario = new Usuario();
-                    //adiciona um ponto aos pontos do usuário
-                    usuario.setPontos(usuario.getPontos() + 1);
                 } else Log.d("erro", "a");
             }
         });
