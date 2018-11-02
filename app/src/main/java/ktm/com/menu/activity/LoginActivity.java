@@ -11,7 +11,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -42,6 +44,7 @@ import ktm.com.menu.helper.Base64Custom;
 import ktm.com.menu.model.Usuario;
 
 import static android.app.ProgressDialog.STYLE_SPINNER;
+import static ktm.com.menu.firebase.ConfiguracaoFirebase.getFirebaseAuth;
 import static ktm.com.menu.firebase.ConfiguracaoFirebase.verificaConexao;
 
 public class LoginActivity extends FragmentActivity {
@@ -97,6 +100,12 @@ public class LoginActivity extends FragmentActivity {
             }
         });
         //########end login com gmail
+
+        //texts views cabeçalho
+        TextView textViewEmail = findViewById(R.id.textViewEmailPessoa22);
+        TextView textViewPontos = findViewById(R.id.textViewPontos22);
+        ImageView imageView = findViewById(R.id.imageView22);
+
     }
 
     //##############login gmail
@@ -115,6 +124,7 @@ public class LoginActivity extends FragmentActivity {
             if(result.isSuccess()){
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
+
             }else{
 
             }
@@ -156,9 +166,14 @@ public class LoginActivity extends FragmentActivity {
                     finish();
                     //Convertendo email em base 64 para ser usado como uidPessoa
                     try {
-                        String identificadorUsuario = Base64Custom.codificarBase64(usuario.getEmail());
+                        String identificadorUsuario = Base64Custom.codificarBase64(FirebaseAuth.getInstance().getCurrentUser().getEmail());
                         usuario.setUidPessoa(identificadorUsuario);
+                        usuario.setNome(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                        usuario.setEmail(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                        usuario.setPontos(1);
                         usuario.salvar();
+                        cadastrarUsuario(usuario);
+                        logarUsuario(usuario);
                         abrirTelaPrincipal();
                     }catch (Exception e){
                         e.printStackTrace();

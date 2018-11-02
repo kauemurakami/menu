@@ -31,17 +31,26 @@ public class Livro implements Serializable{
     private String nome;
     private String autor;
     private String url;
+    private String categoria;
     private String uidLivro;
 
-    public Livro(String nome, String autor, String url) {
+    public Livro(String nome, String autor, String url,String categoria) {
         this.nome = nome;
         this.autor = autor;
         this.url = url.toString();
+        this.categoria = categoria;
     }
 
     public Livro() {
     }
 
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
     public void salvar(){
         DatabaseReference firebaseRef = ConfiguracaoFirebase.getDatabase();
         DatabaseReference livro = firebaseRef.child("arquivos").child(nome);

@@ -69,7 +69,7 @@ public class PrincipalFragment extends Fragment {
         //Recycle View
         recyclerView = view.findViewById(R.id.recycle_view_livros);
 
-        //livrosl istagem
+        //livros listagem
         livrosRef = ConfiguracaoFirebase.getDatabase().child("arquivos");
 
         //Configurar Adapter
@@ -93,20 +93,12 @@ public class PrincipalFragment extends Fragment {
                             public void onItemClick(View view, int position) {
                                 //recpera livro da posição clicada
                                 Livro livroSelecionado = listaLivros.get(position);
-                                try {
-                                    Usuario usuario = new Usuario();
-                                    //verifica se o usuario possui pontos suficientes para fazer o download
-                                    if(usuario.getPontos() > 0){
-                                        Toast.makeText(getContext(),"Baixando "+livroSelecionado.getNome().toString(),Toast.LENGTH_SHORT).show();
-                                        //chamada do método de download
-                                        downloadFile(livroSelecionado.getUrl());
-                                        //retira um ponto do usuario
-                                        usuario.setPontos(usuario.getPontos()-1);
-                                    }
+                                try{
+                                    Toast.makeText(getContext(),"Baixando...",Toast.LENGTH_SHORT).show();
+                                    downloadFile(livroSelecionado.getUrl());
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
-
                             }
 
                             @Override
